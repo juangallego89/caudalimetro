@@ -1,6 +1,7 @@
-USE master
+USE [master]
 GO
-DROP DATABASE IF EXISTS CAUDALIMETRO;
+DROP DATABASE IF EXISTS [CAUDALIMETRO]
+GO
 CREATE DATABASE CAUDALIMETRO 
 GO
 USE CAUDALIMETRO 
@@ -13,7 +14,7 @@ CREATE TABLE PERSONAS
 	PRIMER_APELLIDO VARCHAR(50) NOT NULL,
 	SEGUNDO_APELLIDO VARCHAR(50),
 	TIPO_DOCUMENTO VARCHAR(3) NOT NULL,
-	NUMERO_DOCUMENTO INT NOT NULL,
+	NUMERO_DOCUMENTO VARCHAR(15) NOT NULL,
 	SEXO VARCHAR(10) NOT NULL,
 	FECHA_NACIMIENTO DATE NOT NULL,
 	TELEFONO VARCHAR (10),
@@ -42,25 +43,113 @@ CREATE TABLE VIVIENDAS
 	ESTADO_REGISTRO INT DEFAULT 1,
 	CONSTRAINT FK_VIVIENDAS_USUARIOS FOREIGN KEY (USUARIO_ID) REFERENCES USUARIOS (USUARIO_ID)
 )
-GO
 CREATE TABLE SENSORES
 (
 	SENSOR_ID INT IDENTITY (1,1) PRIMARY KEY NOT NULL,
 	VIVIENDA_ID INT NOT NULL,
 	NOMBRE VARCHAR(50) NOT NULL,
-	NIVEL_BATERIA INT NOT NULL,
 	ESTADO VARCHAR(10) DEFAULT 'Activo',
 	ULTIMA_LECTURA DATE NOT NULL,
 	SERIAL VARCHAR(10) NOT NULL,
 	ESTADO_REGISTRO INT DEFAULT 1,
-	CONSTRAINT FK_SENSORES_VIVIENDAS FOREIGN KEY (SENSOR_ID) REFERENCES VIVIENDAS (VIVIENDA_ID)
+	CONSTRAINT FK_SENSORES_VIVIENDAS FOREIGN KEY (VIVIENDA_ID) REFERENCES VIVIENDAS (VIVIENDA_ID)
 )
 GO
 CREATE TABLE LECTURAS
 (
 	LECTURA_ID INT IDENTITY PRIMARY KEY NOT NULL,
+	LECTURA DECIMAL NOT NULL,
 	SENSOR_ID INT NOT NULL,
 	ESTADO_REGISTRO INT DEFAULT 1,
 	CONSTRAINT FK_LECTURAS_SENSORES FOREIGN KEY (SENSOR_ID) REFERENCES SENSORES (SENSOR_ID)
 )
 GO
+-------------Personas------------------
+INSERT INTO [dbo].[PERSONAS]
+           ([PRIMER_NOMBRE]
+           ,[SEGUNDO_NOMBRE]
+           ,[PRIMER_APELLIDO]
+           ,[SEGUNDO_APELLIDO]
+           ,[TIPO_DOCUMENTO]
+           ,[NUMERO_DOCUMENTO]
+           ,[SEXO]
+           ,[FECHA_NACIMIENTO]
+           ,[TELEFONO]
+           ,[ESTADO_REGISTRO])
+     VALUES
+           ('JUAN',
+           'DAVID',
+           'GALLEGO',
+           'GIRALDO',
+           'CC', 
+           '1120565910',
+           'MASCULINO',
+           '1989/09/30',
+           '3134595990',
+           1);
+INSERT INTO [dbo].[PERSONAS]
+           ([PRIMER_NOMBRE]
+           ,[SEGUNDO_NOMBRE]
+           ,[PRIMER_APELLIDO]
+           ,[SEGUNDO_APELLIDO]
+           ,[TIPO_DOCUMENTO]
+           ,[NUMERO_DOCUMENTO]
+           ,[SEXO]
+           ,[FECHA_NACIMIENTO]
+           ,[TELEFONO]
+           ,[ESTADO_REGISTRO])
+     VALUES
+           ('JHON',
+           '',
+           'DOE',
+           '',
+           'CC', 
+           '1125874562',
+           'MASCULINO',
+           '1970/01/01',
+           '3101234567',
+           1);
+INSERT INTO [dbo].[PERSONAS]
+           ([PRIMER_NOMBRE]
+           ,[SEGUNDO_NOMBRE]
+           ,[PRIMER_APELLIDO]
+           ,[SEGUNDO_APELLIDO]
+           ,[TIPO_DOCUMENTO]
+           ,[NUMERO_DOCUMENTO]
+           ,[SEXO]
+           ,[FECHA_NACIMIENTO]
+           ,[TELEFONO]
+           ,[ESTADO_REGISTRO])
+     VALUES
+           ('ANNYE',
+           'MARIE',
+           'CLUE',
+           'BREJCHA',
+           'PA', 
+           'CAN7854AB25CC',
+           'FEMENINO',
+           '1985/02/10',
+           '3114587410',
+           1);
+-------------Usuarios------------------
+INSERT INTO [dbo].[USUARIOS]
+           ([USUARIO]
+           ,[CONTRASENA]
+           ,[PERSONA_ID]
+           ,[CORREO]
+           ,[CODIGO_USUARIO_VIVIENDA]
+           ,[ESTADO]
+           ,[ESTADO_REGISTRO])
+     VALUES
+           (
+		   'JUAN',
+		   '1234',
+		   1,
+		   'juangallego98@gmail.com',
+		   1,
+		   'Activo',
+		   1
+		   );
+-----------Viviendas-------------------
+-----------Sensores--------------------
+-----------Lecturas--------------------
